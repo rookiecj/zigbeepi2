@@ -1,0 +1,64 @@
+# https://www.zigbee2mqtt.io/guide/configuration/
+homeassistant: false
+# allow new devices to join
+
+permit_join: true
+mqtt:
+  base_topic: zigbee2mqtt
+  # MQTT server URL
+
+  #server: mqtt://mosquitto:1883
+  # MQTT server authentication, uncomment if required:
+  # user: my_user
+  # password: my_password
+
+  # network_mode: bridge
+  # mosquitto.conf allow_anonymous true
+  #server: mqtt://localhost:1883
+  # worked with network_mode_bridge
+  #server: mqtt://192.168.0.144:1883
+  # try with papa.work
+  server: mqtt://mq.papa.works:1883
+
+# Serial settings
+serial:
+  port: /dev/ttyACM0
+
+# Zigbee2MQTT has a built-in webbased frontend.
+# Will run frontend on port 8080
+#frontend: true
+frontend:
+  port: 8080
+
+# Optional: Enable the availability feature (default = false)
+# zigbee2mqtt/[FRIENDLY_NAME]/availability
+availability: true
+
+advanced:
+  log_level: debug
+  # network_key: GENERATE to let Zigbee2MQTT generate a new random key on the first start
+  network_key:
+    - 123
+    - 179
+    - 53
+    - 145
+    - 187
+    - 20
+    - 160
+    - 7
+    - 45
+    - 157
+    - 193
+    - 4
+    - 81
+    - 150
+    - 77
+    - 210
+  homeassistant_legacy_entity_attributes: false
+  legacy_api: false
+  legacy_availability_payload: false
+device_options:
+  legacy: false
+devices:
+  "0x00124b0028928ea6":
+    friendly_name: "0x00124b0028928ea6"

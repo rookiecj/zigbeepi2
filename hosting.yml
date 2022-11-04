@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+   heimdall:
+     image: linuxserver/heimdall
+     container_name: heimdall
+     restart: unless-stopped
+     environment:
+       - PUID=${PUID}
+       - PGID=${PGID}
+       - TZ=${TZ}
+     volumes:
+       - ${DATADIR}/heimdall:/config
+     ports:
+       - 9080:80
+       - 9443:443
+
+   pihole:
+     container_name: pihole
+     image: pihole/pihole:latest
+     restart: unless-stopped
+     ports:
+       - "53:53/tcp"
+       - "53:53/udp"
+       - "67:67/udp"
+       - "6080:80/tcp"
+       - "6443:443/tcp"
+     environment:
+       TZ: ${TZ}
+       WEBPASSWORD: ${PH_WEBPASSWORD}
+     volumes:
+        - '${DATADIR}/pihole/etc-pihole/:/etc/pihole/'
+        - '${DATADIR}/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
+     cap_add:
+       - NET_ADMIN
+     dns:
+       - 127.0.0.1
+       - 46.182.19.48
+     restart: unless-stopped
+
+   unifi-controller:
+     image: linuxserver/unifi-controller:arm32v7-latest
+     container_name: unifi-controller
+     restart: unless-stopped
+     environment:
+       - PUID=${PUID}
+       - PGID=${PGID}
+       - MEM_LIMIT=512M #optional
+     volumes:
+       - ${DATADIR}/unifi-controller:/config
+     ports:
+       - 3478:3478/udp
+       - 10001:10001/udp
+       - 8080:8080
+       - 8443:8443
+       - 1900:1900/udp
+       - 8843:8843
+       - 8880:8880
+       - 6789:6789
+       - 5514:5514
